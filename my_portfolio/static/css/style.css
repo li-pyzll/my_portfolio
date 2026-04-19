@@ -1,0 +1,23 @@
+/* 最简样式：保证可读与基本布局，可按需扩展 */
+
+body {
+    font-family: system-ui, "Segoe UI", sans-serif;
+    line-height: 1.5;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+header nav a {
+    margin-right: 1rem;
+}
+
+footer {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.guestbook-list li {
+    margin-bottom: 0.5rem;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}我的作品集{% endblock %}</title>
+    <!-- 静态 CSS：路径以 /static/ 开头，对应项目下的 static 文件夹 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- url_for 生成路由地址，修改 app.py 里的路由名时链接仍正确 -->
+            <a href="{{ url_for('index') }}">首页</a>
+            <a href="{{ url_for('projects') }}">作品</a>
+            <a href="{{ url_for('about') }}">关于我</a>
+            <a href="{{ url_for('guestbook') }}">留言板</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>个人作品集 · Flask 示例</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
