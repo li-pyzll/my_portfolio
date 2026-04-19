@@ -1,23 +1,539 @@
-/* 最简样式：保证可读与基本布局，可按需扩展 */
+/* ============================================================
+   工业设计作品集 · 全局样式
+   说明：大一可读注释；配色黑白灰 + 浅蓝点缀；无框架依赖
+   ============================================================ */
+
+/* ---------- 1. CSS 变量（改一处，全站联动） ---------- */
+:root {
+  /* 主色：偏冷的灰，比纯黑更“高级”、不刺眼 */
+  --color-bg: #f7f7f8;
+  --color-surface: #ffffff;
+  --color-text: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-border: #e8e8ea;
+  /* 点缀：低饱和浅蓝，用于链接、高亮、细线 */
+  --color-accent: #7eb8d6;
+  --color-accent-soft: rgba(126, 184, 214, 0.18);
+  /* 排版 */
+  --font-sans: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    sans-serif;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.75rem;
+  --space-lg: 3rem;
+  --space-xl: 5rem;
+  --radius: 12px;
+  --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.06);
+  --transition: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  --header-h: 64px;
+}
+
+/* 平滑滚动：锚点跳转时不突兀（原生，无需 JS） */
+html {
+  scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 body {
-    font-family: system-ui, "Segoe UI", sans-serif;
-    line-height: 1.5;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 1rem;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
 }
 
-header nav a {
-    margin-right: 1rem;
+img {
+  max-width: 100%;
+  display: block;
 }
 
-footer {
-    margin-top: 2rem;
-    font-size: 0.9rem;
-    color: #666;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.guestbook-list li {
-    margin-bottom: 0.5rem;
+a:hover {
+  color: var(--color-accent);
+}
+
+/* 仅屏幕阅读器可见的文字（无障碍） */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- 2. 布局容器 ---------- */
+.container {
+  width: min(1100px, 100% - 2 * var(--space-md));
+  margin-inline: auto;
+}
+
+/* ---------- 3. 顶部导航 ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(247, 247, 248, 0.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--header-h);
+  width: min(1100px, 100% - 2 * var(--space-md));
+  margin-inline: auto;
+}
+
+.nav__brand {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+
+.nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.nav__link {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  padding: var(--space-xs) 0;
+  position: relative;
+  transition: color var(--transition);
+}
+
+/* 下划线微动画：hover 时从左展开 */
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition);
+}
+
+.nav__link:hover {
+  color: var(--color-text);
+}
+
+.nav__link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav__link--accent {
+  color: var(--color-text);
+}
+
+.nav__link--accent::after {
+  transform: scaleX(1);
+}
+
+/* 汉堡按钮：默认桌面隐藏 */
+.nav__toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-xs);
+}
+
+.nav__toggle-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--color-text);
+  margin: 5px 0;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+/* 手机端：折叠菜单 */
+@media (max-width: 768px) {
+  .nav__toggle {
+    display: block;
+  }
+
+  .nav__list {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--header-h);
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-sm) var(--space-md);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height var(--transition), opacity var(--transition);
+  }
+
+  /* JS 加上 .is-open 后展开 */
+  .nav__list.is-open {
+    max-height: 320px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav__link {
+    display: block;
+    padding: var(--space-sm) 0;
+  }
+}
+
+/* ---------- 4. Banner（大图区）----------
+   做法 A（当前）：纯 CSS 渐变 + 细网格，零图片也好看。
+   做法 B：在 .hero__media 上增加
+     background-image: url('/static/images/hero.jpg');
+   并把下面 gradient 叠在 overlay 上即可。 */
+.hero {
+  position: relative;
+  min-height: min(78vh, 720px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  /* 浅灰底 + 微妙浅蓝高光，轻奢留白感 */
+  background-color: #ececee;
+  background-image: linear-gradient(
+      135deg,
+      rgba(126, 184, 214, 0.12) 0%,
+      transparent 45%
+    ),
+    linear-gradient(
+      #ececee 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      #ececee 1px,
+      transparent 1px
+    );
+  background-size: auto, 48px 48px, 48px 48px;
+}
+
+/* 叠一层暗角，让中间文字更稳 */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(0, 0, 0, 0.04) 100%
+  );
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+  max-width: 640px;
+}
+
+.hero__tag {
+  margin: 0 0 var(--space-sm);
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.hero__title {
+  margin: 0 0 var(--space-sm);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.hero__subtitle {
+  margin: 0 0 var(--space-md);
+  color: var(--color-muted);
+  font-size: 1rem;
+}
+
+/* 主按钮：线框 + hover 填充感 */
+.hero__cta {
+  display: inline-block;
+  padding: 0.65rem 1.75rem;
+  border: 1px solid var(--color-text);
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  transition: background var(--transition), color var(--transition),
+    border-color var(--transition), transform var(--transition);
+}
+
+.hero__cta:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-color: var(--color-text);
+  transform: translateY(-2px);
+}
+
+/* ---------- 5. 通用区块标题 ---------- */
+.section {
+  padding: var(--space-xl) 0;
+}
+
+.section__title {
+  margin: 0 0 var(--space-xs);
+  font-size: clamp(1.35rem, 2.5vw, 1.6rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.section__lead {
+  margin: 0 0 var(--space-lg);
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  max-width: 520px;
+}
+
+/* ---------- 6. 关于我 ---------- */
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.about__text p {
+  margin: 0 0 var(--space-sm);
+  color: var(--color-text);
+}
+
+.about__highlight {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.about__meta {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-soft);
+}
+
+.about__meta dl {
+  margin: 0;
+}
+
+.about__meta-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+
+.about__meta-row:last-child {
+  border-bottom: none;
+}
+
+.about__meta dt {
+  margin: 0;
+  color: var(--color-muted);
+  font-weight: normal;
+}
+
+.about__meta dd {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- 7. 作品卡片 ---------- */
+.works__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+/* 悬停：轻微上浮 + 阴影，克制不浮夸 */
+.card:hover {
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-6px);
+}
+
+.card__link {
+  display: block;
+  height: 100%;
+  color: inherit;
+}
+
+.card__link:hover {
+  color: inherit;
+}
+
+.card__thumb {
+  aspect-ratio: 4 / 3;
+  background-size: cover;
+  background-position: center;
+}
+
+/* 三张占位图：渐变区分项目，可改成自己的作品图 */
+.card__thumb--1 {
+  background-image: linear-gradient(
+      145deg,
+      var(--color-accent-soft),
+      transparent 55%
+    ),
+    linear-gradient(#dfe3e8, #c5ccd4);
+}
+
+.card__thumb--2 {
+  background-image: linear-gradient(
+      -20deg,
+      rgba(126, 184, 214, 0.25),
+      transparent 50%
+    ),
+    linear-gradient(#d8dde3, #b8c0ca);
+}
+
+.card__thumb--3 {
+  background-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.06),
+      transparent 40%
+    ),
+    linear-gradient(90deg, #e2e5e9 50%, #cfd5dc 50%);
+  background-size: 100% 100%, 24px 24px;
+}
+
+.card__body {
+  padding: var(--space-md);
+}
+
+.card__title {
+  margin: 0 0 var(--space-xs);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.card__desc {
+  margin: 0 0 var(--space-sm);
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.card__more {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+@media (max-width: 992px) {
+  .works__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .works__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- 8. 页脚 ---------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-lg) 0;
+  background: #efeff1;
+}
+
+.site-footer__inner {
+  text-align: center;
+}
+
+.site-footer__copy {
+  margin: 0 0 var(--space-xs);
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.site-footer__contact {
+  margin: 0 0 var(--space-xs);
+  font-size: 0.9rem;
+}
+
+.site-footer__contact a {
+  color: var(--color-accent);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition);
+}
+
+.site-footer__contact a:hover {
+  border-bottom-color: var(--color-accent);
+}
+
+.site-footer__note {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* ---------- 9. 减少动画偏好：尊重系统设置 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .card,
+  .hero__cta,
+  .nav__link::after {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
 }

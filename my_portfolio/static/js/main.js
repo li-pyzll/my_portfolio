@@ -1,2 +1,36 @@
-// 占位：可在此添加前端交互逻辑
-// 例如：表单校验、主题切换等
+/**
+ * 作品集页 · 原生 JS（无依赖）
+ * 作用：1) 页脚年份  2) 手机端导航开关  3) 点击锚点后收起菜单
+ */
+
+(function () {
+  "use strict";
+
+  // ---------- 1. 自动写入当前年份到 #year ----------
+  var yearEl = document.getElementById("year");
+  if (yearEl) {
+    yearEl.textContent = String(new Date().getFullYear());
+  }
+
+  // ---------- 2. 手机端：汉堡按钮展开/收起菜单 ----------
+  var toggle = document.getElementById("nav-toggle");
+  var menu = document.getElementById("nav-menu");
+
+  if (toggle && menu) {
+    toggle.addEventListener("click", function () {
+      var open = menu.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+
+    // 点击某个导航链接后收起菜单（小屏体验更好）
+    var links = menu.querySelectorAll("a[href^='#']");
+    links.forEach(function (link) {
+      link.addEventListener("click", function () {
+        if (window.matchMedia("(max-width: 768px)").matches) {
+          menu.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+  }
+})();
