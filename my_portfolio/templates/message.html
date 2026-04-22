@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{# 留言板：对应 @app.route('/message') -> message.html；提交需在 app.py 中允许 POST（见下方说明）#}
+
+{% block title %}留言 · 工业设计作品集{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <div class="container page-head__inner">
+    <p class="page-head__tag">Message</p>
+    <h1 class="page-head__title">留言板</h1>
+    <p class="page-head__lead">给老师、同学或访客留一句话。正式环境需在后端保存到数据库。</p>
+  </div>
+</header>
+
+<section class="section section--tight" aria-labelledby="message-form-title">
+  <div class="container container--narrow">
+    <h2 id="message-form-title" class="visually-hidden">留言表单</h2>
+
+    {% if submitted %}
+    <!-- Flask 在 POST 成功后传入 submitted=True 时显示 -->
+    <p class="form-success" role="status">已收到你的留言（演示：未写入数据库）。</p>
+    {% endif %}
+
+    <!--
+        method="post"：与 app.py 中 message 视图需声明 methods=['GET','POST'] 配合；
+        若暂时只有 GET，请将 method 改为 get 或去掉 form，仅用静态展示。
+      -->
+    <form class="message-form" method="post" action="{{ url_for('message') }}" novalidate>
+      <div class="message-form__field">
+        <label for="msg-name">称呼</label>
+        <input id="msg-name" name="name" type="text" autocomplete="name" placeholder="怎么称呼你" />
+      </div>
+      <div class="message-form__field">
+        <label for="msg-email">邮箱（选填）</label>
+        <input id="msg-email" name="email" type="email" autocomplete="email" placeholder="方便回复时填写" />
+      </div>
+      <div class="message-form__field">
+        <label for="msg-body">留言内容</label>
+        <textarea id="msg-body" name="body" rows="6" placeholder="写下你想说的话…" required></textarea>
+      </div>
+      <div class="message-form__actions">
+        <button type="submit" class="btn btn--primary">提交留言</button>
+      </div>
+      <p class="message-form__hint">大一课程演示：可在 Flask 视图中读取 <code>request.form</code> 并写入数据库或发邮件。</p>
+    </form>
+  </div>
+</section>
+{% endblock %}

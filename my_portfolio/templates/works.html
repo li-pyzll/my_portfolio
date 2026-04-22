@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{# 作品列表页：对应 @app.route('/works') -> works.html #}
+
+{% block title %}作品 · 工业设计作品集{% endblock %}
+
+{% block content %}
+<!-- 子页顶栏：与首页 hero 区分，高度收敛 -->
+<header class="page-head">
+  <div class="container page-head__inner">
+    <p class="page-head__tag">Portfolio</p>
+    <h1 class="page-head__title">作品</h1>
+    <p class="page-head__lead">课程作业与个人探索的整理。缩略图为占位，可替换为渲染图或摄影。</p>
+  </div>
+</header>
+
+<section class="works section section--tight" aria-labelledby="works-page-title">
+  <div class="container">
+    <h2 id="works-page-title" class="visually-hidden">作品列表</h2>
+    <div class="works__grid works__grid--large">
+      <article class="card">
+        <a class="card__link" href="#" aria-label="便携灯具概念（可链接到 Behance 或详情页）">
+          <div class="card__thumb card__thumb--1"></div>
+          <div class="card__body">
+            <h3 class="card__title">便携灯具概念</h3>
+            <p class="card__desc">光影与握持的人机推敲，草模验证。</p>
+            <span class="card__more">查看详情</span>
+          </div>
+        </a>
+      </article>
+      <article class="card">
+        <a class="card__link" href="#">
+          <div class="card__thumb card__thumb--2"></div>
+          <div class="card__body">
+            <h3 class="card__title">桌面收纳系统</h3>
+            <p class="card__desc">模块化分隔，适配不同桌面深度。</p>
+            <span class="card__more">查看详情</span>
+          </div>
+        </a>
+      </article>
+      <article class="card">
+        <a class="card__link" href="#" target="_blank" rel="noopener noreferrer">
+          <div class="card__thumb card__thumb--3"></div>
+          <div class="card__body">
+            <h3 class="card__title">可持续材料实验</h3>
+            <p class="card__desc">材料样本与表面肌理记录。</p>
+            <span class="card__more">查看详情</span>
+          </div>
+        </a>
+      </article>
+      <!-- 额外占位：复制 card 块即可增项 -->
+      <article class="card">
+        <a class="card__link" href="#" target="_blank" rel="noopener noreferrer">
+          <div class="card__thumb card__thumb--4"></div>
+          <div class="card__body">
+            <h3 class="card__title">产品快题草图</h3>
+            <p class="card__desc">限时形态推演与故事板练习。</p>
+            <span class="card__more">查看详情</span>
+          </div>
+        </a>
+      </article>
+      <article class="card">
+        <a class="card__link" href="#" target="_blank" rel="noopener noreferrer">
+          <div class="card__thumb card__thumb--5"></div>
+          <div class="card__body">
+            <h3 class="card__title">CMF 色板</h3>
+            <p class="card__desc">金属与织物搭配的情绪板。</p>
+            <span class="card__more">查看详情</span>
+          </div>
+        </a>
+      </article>
+      <article class="card">
+        <a class="card__link" href="#" target="_blank" rel="noopener noreferrer">
+          <div class="card__thumb card__thumb--6"></div>
+          <div class="card__body">
+            <h3 class="card__title">模型制作过程</h3>
+            <p class="card__desc">泡沫切割与表面处理的记录。</p>
+            <span class="card__more">查看详情</span>
+          </div>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+{% endblock %}

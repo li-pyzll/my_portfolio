@@ -1,137 +1,102 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <!-- 视口：移动端正确缩放，响应式必备 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>工业设计 · 个人作品集</title>
-  <!-- Flask：用 url_for 引用 static 下的 CSS，路径随部署自动正确 -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-</head>
-<body>
-  <!-- ========== 顶部导航 ========== -->
-  <header class="site-header">
-    <nav class="nav" aria-label="主导航">
-      <a class="nav__brand" href="#top">ID · Portfolio</a>
-      <button type="button" class="nav__toggle" aria-expanded="false" aria-controls="nav-menu" id="nav-toggle">
-        <span class="nav__toggle-bar" aria-hidden="true"></span>
-        <span class="nav__toggle-bar" aria-hidden="true"></span>
-        <span class="nav__toggle-bar" aria-hidden="true"></span>
-        <span class="visually-hidden">打开菜单</span>
-      </button>
-      <ul class="nav__list" id="nav-menu">
-        <li><a class="nav__link" href="#about">简介</a></li>
-        <li><a class="nav__link" href="#works">作品</a></li>
-        <li><a class="nav__link nav__link--accent" href="#contact">联系</a></li>
-      </ul>
-    </nav>
-  </header>
+{% extends "base.html" %}
+{# 首页：对应 app 中 @app.route('/') -> index.html #}
 
-  <main id="top">
-    <!-- ========== Banner 大图区 ========== -->
-    <section class="hero" aria-labelledby="hero-title">
-      <!-- 背景图在 CSS 中设置；也可换成 <img>，见 style.css 注释 -->
-      <div class="hero__media" role="img" aria-label="作品集主视觉"></div>
-      <div class="hero__overlay"></div>
-      <div class="hero__content">
-        <p class="hero__tag">Industrial Design</p>
-        <h1 id="hero-title" class="hero__title">形态 · 功能 · 温度</h1>
-        <p class="hero__subtitle">大一 · 工业设计专业 · 个人作品与练习记录</p>
-        <a class="hero__cta" href="#works">浏览作品</a>
+{% block title %}首页 · 工业设计作品集{% endblock %}
+
+{% block content %}
+<!-- ========== Banner 大图区 ========== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__media" role="img" aria-label="作品集主视觉"></div>
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <p class="hero__tag">Industrial Design</p>
+    <h1 id="hero-title" class="hero__title">形态 · 功能 · 温度</h1>
+    <p class="hero__subtitle">大一 · 工业设计专业 · 个人作品与练习记录</p>
+    <!-- 跳转到独立「作品」页，与顶部导航一致 -->
+    <a class="hero__cta" href="{{ url_for('works') }}" target="_blank" rel="noopener noreferrer">浏览作品</a>
+  </div>
+</section>
+
+<!-- ========== 个人简介（首页摘要，详情见 /about）========== -->
+<section class="about section" id="about" aria-labelledby="about-title">
+  <div class="container">
+    <h2 id="about-title" class="section__title">关于我</h2>
+    <p class="section__lead">用简洁的结构，讲述设计思考。</p>
+    <div class="about__grid">
+      <div class="about__text">
+        <p>
+          你好，我是一名工业设计专业学生。关注产品与人的关系，习惯从草图、模型与材料实验出发，
+          逐步推敲形态与使用场景。这个站点用于整理课程作业与个人探索，持续更新中。
+        </p>
+        <p>
+          兴趣方向：<span class="about__highlight">可持续材料</span>、
+          <span class="about__highlight">家居小物</span>、
+          <span class="about__highlight">CMF 表达</span>。
+        </p>
+        <p class="about__more-link">
+          <a class="text-link" href="{{ url_for('about') }}" target="_blank" rel="noopener noreferrer">查看更多关于我的内容 →</a>
+        </p>
       </div>
-    </section>
-
-    <!-- ========== 个人简介 ========== -->
-    <section class="about section" id="about" aria-labelledby="about-title">
-      <div class="container">
-        <h2 id="about-title" class="section__title">关于我</h2>
-        <p class="section__lead">用简洁的结构，讲述设计思考。</p>
-        <div class="about__grid">
-          <div class="about__text">
-            <p>
-              你好，我是一名工业设计专业学生。关注产品与人的关系，习惯从草图、模型与材料实验出发，
-              逐步推敲形态与使用场景。这个页面用于整理课程作业与个人探索，持续更新中。
-            </p>
-            <p>
-              兴趣方向：<span class="about__highlight">可持续材料</span>、
-              <span class="about__highlight">家居小物</span>、
-              <span class="about__highlight">CMF 表达</span>。
-            </p>
+      <aside class="about__meta" aria-label="基本信息">
+        <dl>
+          <div class="about__meta-row">
+            <dt>专业</dt>
+            <dd>工业设计</dd>
           </div>
-          <aside class="about__meta" aria-label="基本信息">
-            <dl>
-              <div class="about__meta-row">
-                <dt>专业</dt>
-                <dd>工业设计</dd>
-              </div>
-              <div class="about__meta-row">
-                <dt>年级</dt>
-                <dd>本科一年级</dd>
-              </div>
-              <div class="about__meta-row">
-                <dt>工具</dt>
-                <dd>Rhino / PS / 手绘</dd>
-              </div>
-            </dl>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== 作品卡片 ========== -->
-    <section class="works section" id="works" aria-labelledby="works-title">
-      <div class="container">
-        <h2 id="works-title" class="section__title">精选作品</h2>
-        <p class="section__lead">卡片为示例占位，把标题、说明和链接换成你的真实项目即可。</p>
-        <div class="works__grid">
-          <!-- 单张作品卡片：复制整块可快速增加项目 -->
-          <article class="card">
-            <a class="card__link" href="#" aria-label="查看项目：便携灯具概念">
-              <!-- 缩略图样式在 CSS 的 .card__thumb--1 中；可改为背景图 url(...) -->
-              <div class="card__thumb card__thumb--1"></div>
-              <div class="card__body">
-                <h3 class="card__title">便携灯具概念</h3>
-                <p class="card__desc">光影与握持的人机推敲，草模验证。</p>
-                <span class="card__more">查看详情</span>
-              </div>
-            </a>
-          </article>
-          <article class="card">
-            <a class="card__link" href="#">
-              <div class="card__thumb card__thumb--2"></div>
-              <div class="card__body">
-                <h3 class="card__title">桌面收纳系统</h3>
-                <p class="card__desc">模块化分隔，适配不同桌面深度。</p>
-                <span class="card__more">查看详情</span>
-              </div>
-            </a>
-          </article>
-          <article class="card">
-            <a class="card__link" href="#">
-              <div class="card__thumb card__thumb--3"></div>
-              <div class="card__body">
-                <h3 class="card__title">可持续材料实验</h3>
-                <p class="card__desc">材料样本与表面肌理记录。</p>
-                <span class="card__more">查看详情</span>
-              </div>
-            </a>
-          </article>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ========== 页脚 ========== -->
-  <footer class="site-footer" id="contact">
-    <div class="container site-footer__inner">
-      <p class="site-footer__copy">© <span id="year"></span> 个人作品集 · Industrial Design</p>
-      <p class="site-footer__contact">
-        联系邮箱：<a href="mailto:your.email@example.com">your.email@example.com</a>
-      </p>
-      <p class="site-footer__note">本页为课程/个人展示用途，转载请说明出处。</p>
+          <div class="about__meta-row">
+            <dt>年级</dt>
+            <dd>本科一年级</dd>
+          </div>
+          <div class="about__meta-row">
+            <dt>工具</dt>
+            <dd>Rhino / PS / 手绘</dd>
+          </div>
+        </dl>
+      </aside>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-</body>
-</html>
+<!-- ========== 作品卡片（首页精选，完整列表在 /works）========== -->
+<section class="works section" id="works" aria-labelledby="works-title">
+  <div class="container">
+    <h2 id="works-title" class="section__title">精选作品</h2>
+    <p class="section__lead">以下为首页展示；完整作品列表请前往作品页。</p>
+    <div class="works__grid">
+      <article class="card">
+        <a class="card__link" href="{{ url_for('works') }}" aria-label="查看项目：便携灯具概念" target="_blank" rel="noopener noreferrer">
+          <div class="card__thumb card__thumb--1"></div>
+          <div class="card__body">
+            <h3 class="card__title">便携灯具概念</h3>
+            <p class="card__desc">光影与握持的人机推敲，草模验证。</p>
+            <span class="card__more">在作品页查看</span>
+          </div>
+        </a>
+      </article>
+      <article class="card">
+        <a class="card__link" href="{{ url_for('works') }}" target="_blank" rel="noopener noreferrer">
+          <div class="card__thumb card__thumb--2"></div>
+          <div class="card__body">
+            <h3 class="card__title">桌面收纳系统</h3>
+            <p class="card__desc">模块化分隔，适配不同桌面深度。</p>
+            <span class="card__more">在作品页查看</span>
+          </div>
+        </a>
+      </article>
+      <article class="card">
+        <a class="card__link" href="{{ url_for('works') }}" target="_blank" rel="noopener noreferrer">
+          <div class="card__thumb card__thumb--3"></div>
+          <div class="card__body">
+            <h3 class="card__title">可持续材料实验</h3>
+            <p class="card__desc">材料样本与表面肌理记录。</p>
+            <span class="card__more">在作品页查看</span>
+          </div>
+        </a>
+      </article>
+    </div>
+    <p class="section__cta">
+      <a class="hero__cta" href="{{ url_for('works') }}" target="_blank" rel="noopener noreferrer">进入作品页</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

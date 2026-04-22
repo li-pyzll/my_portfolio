@@ -1,6 +1,6 @@
 /**
  * 作品集页 · 原生 JS（无依赖）
- * 作用：1) 页脚年份  2) 手机端导航开关  3) 点击锚点后收起菜单
+ * 作用：1) 页脚年份  2) 手机端导航开关  3) 点击任意导航链接后收起菜单
  */
 
 (function () {
@@ -22,8 +22,8 @@
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
 
-    // 点击某个导航链接后收起菜单（小屏体验更好）
-    var links = menu.querySelectorAll("a[href^='#']");
+    // 点击导航链接后收起菜单（含首页/作品等多页面跳转，不仅限于 # 锚点）
+    var links = menu.querySelectorAll("a.nav__link");
     links.forEach(function (link) {
       link.addEventListener("click", function () {
         if (window.matchMedia("(max-width: 768px)").matches) {

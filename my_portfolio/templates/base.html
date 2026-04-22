@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {# 子页面可覆盖浏览器标签标题 #}
+  <title>{% block title %}工业设计 · 个人作品集{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  {% block extra_head %} {% endblock %}
+</head>
+
+<body>
+  <!-- 全站统一顶栏：链接用 url_for，与 app.py 中路由函数名对应 -->
+  <header class="site-header">
+    <nav class="nav" aria-label="主导航">
+      <a class="nav__brand" href="{{ url_for('index') }}" target="_blank" rel="noopener noreferrer">ID · Portfolio</a>
+      <button type="button" class="nav__toggle" aria-expanded="false" aria-controls="nav-menu" id="nav-toggle">
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="visually-hidden">打开菜单</span>
+      </button>
+      <ul class="nav__list" id="nav-menu">
+        <li>
+          <a class="nav__link{% if request.endpoint == 'index' %} nav__link--current{% endif %}"
+            href="{{ url_for('index') }}" target="_blank" rel="noopener noreferrer">首页</a>
+        </li>
+        <li>
+          <a class="nav__link{% if request.endpoint == 'works' %} nav__link--current{% endif %}"
+            href="{{ url_for('works') }}" target="_blank" rel="noopener noreferrer">作品</a>
+        </li>
+        <li>
+          <a class="nav__link{% if request.endpoint == 'about' %} nav__link--current{% endif %}"
+            href="{{ url_for('about') }}" target="_blank" rel="noopener noreferrer">关于</a>
+        </li>
+        <li>
+          <a class="nav__link{% if request.endpoint == 'message' %} nav__link--current{% endif %}"
+            href="{{ url_for('message') }}" target="_blank" rel="noopener noreferrer">留言</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 子页面在里填主体内容 -->
+  <main id="top">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="container site-footer__inner">
+      <p class="site-footer__copy">© <span id="year"></span> 个人作品集 · Industrial Design</p>
+      <p class="site-footer__contact">
+        联系邮箱：<a href="mailto:your.email@example.com" target="_blank" rel="noopener noreferrer">your.email@example.com</a>
+      </p>
+      <p class="site-footer__note">本页为课程/个人展示用途，转载请说明出处。</p>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_js %}
+  {% endblock %}
+</body>
+
+</html>
